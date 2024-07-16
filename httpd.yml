@@ -1,0 +1,10 @@
+---
+- name: Install and start Apache HTTPD
+  hosts: all
+  tasks:
+    - name: Install the latest version of apache
+      ansible.builtin.dnf:
+        name: httpd
+        state: latest
+        
+
