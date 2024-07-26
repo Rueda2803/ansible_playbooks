@@ -1,0 +1,5 @@
+- name: Create a group
+  microsoft.ad.group:
+    name: Pruebas
+    scope: global
+    state: present
