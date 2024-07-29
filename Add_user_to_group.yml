@@ -1,8 +1,8 @@
 ---
-- name: Create a group in an AD
+- name: Add an user in a group AD
   hosts: all
   tasks:
-    - name: Create a group
+    - name: Add user
       microsoft.ad.group:
         name: AD_Pruebas
         scope: global
