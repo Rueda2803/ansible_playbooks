@@ -8,5 +8,5 @@
         scope: global
         members:
           add:
-            - Administrator@REDSOFT.GT.SV
+            - REDSOFT\Administrator
   
