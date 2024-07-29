@@ -4,14 +4,7 @@
   tasks:
     - name: Create a group
       microsoft.ad.group:
-        name: Pruebas
+        name: AD_Pruebas
         scope: global
         state: present
-    
-    - name: Add members to the group, preserving existing membership
-      microsoft.ad.group:
-        name: Test Group
-        scope: domainlocal
-        members:
-          add:
-            - Pruebas
+  
