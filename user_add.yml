@@ -1,0 +1,11 @@
+---
+- name: Ensure user bob is created and use custom credentials to create the user
+  microsoft.ad.user:
+    identity: bob
+    firstname: Bob
+    surname: Smith
+    password: B0bP4ssw0rd
+    state: present
+    domain_username: REDOSFT\Administrator
+    domain_password: Redsoft2024
+    domain_server: Administrator@REDOSFOT.GT.SV
