@@ -9,6 +9,6 @@
         surname: Smith
         password: B0bP4ssw0rd
         state: present
-        domain_username: REDOSFT\Administrator
+        domain_username: REDOSFT\Bob
         domain_password: Redsoft2024
-        domain_server: Administrator@REDSOFT.GT.SV
+        domain_server: Bob@REDSOFT.GT.SV
