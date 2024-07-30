@@ -9,6 +9,6 @@
         firstname: Bob
         surname: Smith
         password: B0bP4ssw0rd
-        domain_username: REDSOFT\Bob
+        domain_username: REDSOFT\Administrator
         domain_password: Redsoft2024
         state: present
