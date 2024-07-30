@@ -5,5 +5,5 @@
     - name: Remove PC from AD
       microsoft.ad.computer:
         name: DESKTOP-HPBP6UJ
-        state: absent
+        enabled: no
         
