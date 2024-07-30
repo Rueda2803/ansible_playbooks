@@ -7,4 +7,5 @@
         name: Bob
         identity: bob
         #enabled: no
-        account_locked: no
+        enabled: yes
+      
