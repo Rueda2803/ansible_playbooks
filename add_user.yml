@@ -11,4 +11,5 @@
         password: B0bP4ssw0rd
         domain_username: REDSOFT\Administrator
         domain_password: Redsoft2024
+        domain_server: bob@redsoft.gt.sv
         state: present
