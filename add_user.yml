@@ -8,7 +8,7 @@
         firstname: Bob
         surname: Smith
         password: B0bP4ssw0rd
-        state: present
-        domain_username: REDOSFT\Bob
+        domain_username: REDSOFT\Bob
         domain_password: Redsoft2024
         domain_server: Bob@REDSOFT.GT.SV
+        state: present
