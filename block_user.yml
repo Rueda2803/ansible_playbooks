@@ -1,11 +1,14 @@
 ---
-- name: User in an AD
+- name: Disable a user in an AD
   hosts: all
   tasks:
-    - name: Ensure user user is create
+    - name: Verify that the user is present in the AD
       microsoft.ad.user:
         name: Bob
-        identity: bob
-        #enabled: no
-        enabled: yes
-      
+        state: present
+        
+    - name: Disable an user in the AD
+      microsoft.ad.user:
+        name: Bob
+        enable: no
+
