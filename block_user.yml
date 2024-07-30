@@ -6,5 +6,5 @@
       microsoft.ad.user:
         name: Bob
         identity: bob
-        state: present
-        account_locked: true
+        enable: no
+        #account_locked: no
