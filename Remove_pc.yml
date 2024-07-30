@@ -4,6 +4,6 @@
   tasks:
     - name: Remove PC from AD
       microsoft.ad.computer:
-        identity: DESKTOP-HPBP6UJ
+        name: DESKTOP-HPBP6UJ
         state: absent
         
