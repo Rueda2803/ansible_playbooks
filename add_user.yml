@@ -1,8 +1,8 @@
 ---
-- name: Create a group in an AD
+- name: User in an AD
   hosts: all
   tasks:
-    - name: Ensure user bob is created and use custom credentials to create the user
+    - name: Ensure user user is create
       microsoft.ad.user:
         name: Bob
         identity: bob
