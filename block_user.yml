@@ -1,0 +1,10 @@
+---
+- name: User in an AD
+  hosts: all
+  tasks:
+    - name: Ensure user user is create
+      microsoft.ad.user:
+        name: Bob
+        identity: bob
+        state: present
+        account_locked: true
