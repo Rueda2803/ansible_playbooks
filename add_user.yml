@@ -9,7 +9,7 @@
         firstname: Bob
         surname: Smith
         password: B0bP4ssw0rd
-        domain_credenctials: bob@redsoft.gt.sv
+        domain_credentials: bob@redsoft.gt.sv
         domain_username: REDSOFT\Administrator
         domain_password: Redsoft2024
         state: present
