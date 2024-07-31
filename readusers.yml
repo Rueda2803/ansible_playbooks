@@ -34,10 +34,21 @@
         vars:
           jmesquery: 'user.password'
 
-      - name: Debug Admin values
-        debug: msg="Admin => {{ admin_user }}, AdminPass => {{ admin_pass }}"
+     # - name: Debug Admin values
+     #   debug: msg="Admin => {{ admin_user }}, AdminPass => {{ admin_pass }}"
 
-      - name: Debug User values
-        debug: msg=" User => {{ user_name }}, UserPass => {{ user_pass }}"
+#      - name: Debug User values
+#        debug: msg=" User => {{ user_name }}, UserPass => {{ user_pass }}"
+
+      - name: Ensure user user is create
+        microsoft.ad.user:
+          name: "{{ user_name }}"
+          identity: "{{ user_name }}"
+          firstname: "{{ user_name }}"
+          surname: "{{ user_name }}"
+          password: "{{ user_pass }}"
+          domain_username: "{{ admin_user }}"
+          domain_password: "{{ admin_pass }}"
+          state: present
 
 
