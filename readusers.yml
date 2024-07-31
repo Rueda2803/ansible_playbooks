@@ -1,6 +1,6 @@
 ---
 - name: ReadJsonfile
-  hosts: Windows_AD
+  hosts: Windows_AD2
   tasks:
     - name: Display the JSON file content
       shell: cat files/users.json
@@ -27,7 +27,7 @@
 
 
 - name: User Create
-  hosts: Windows_AD2
+  hosts: Windows_AD
   tasks:
     - name: Ensure user user is create
       microsoft.ad.user:
