@@ -1,6 +1,9 @@
 ---
   - name: ReadJsonfile
-    hosts: localhost
+    hosts: all
+    vars:
+      dom_user: REDSOFT\Administrator
+      dom_pass: Redsoft2024
     tasks:
       - name: Display the JSON file content
         shell: cat files/users.json
@@ -9,18 +12,6 @@
       - name: save the Json data to a Variable as a Fact
         set_fact:
           jsondata: "{{ result.stdout | from_json }}"
-
-      - name: setAdminaccount
-        set_fact:
-          admin_user: "{{ jsondata | json_query(jmesquery) }}"
-        vars:
-          jmesquery: 'admin.adminname'
-
-      - name: setAdminPass
-        set_fact:
-          admin_pass: "{{ jsondata | json_query(jmesquery) }}"
-        vars:
-          jmesquery: 'admin.password'
 
       - name: setUserName
         set_fact:
@@ -47,8 +38,8 @@
           firstname: "{{ user_name }}"
           surname: "{{ user_name }}"
           password: "{{ user_pass }}"
-          domain_username: "{{ admin_user }}"
-          domain_password: "{{ admin_pass }}"
+          domain_username: "{{ dom_user }}"
+          domain_password: "{{ dom_pass }}"
           state: present
 
 
