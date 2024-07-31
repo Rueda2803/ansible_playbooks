@@ -1,0 +1,43 @@
+---
+  - name: ReadJsonfile
+    hosts: localhost
+    tasks:
+      - name: Display the JSON file content
+        shell: cat /ansible_playbooks/jsonfiles/users.json
+        register: result
+
+      - name: save the Json data to a Variable as a Fact
+        set_fact:
+          jsondata: "{{ result.stdout | from_json }}"
+
+      - name: setAdminaccount
+        set_fact:
+          admin_user: "{{ jsondata | json_query(jmesquery) }}"
+        vars:
+          jmesquery: 'admin.adminname'
+
+      - name: setAdminPass
+        set_fact:
+          admin_pass: "{{ jsondata | json_query(jmesquery) }}"
+        vars:
+          jmesquery: 'admin.password'
+
+      - name: setUserName
+        set_fact:
+          user_name: "{{ jsondata | json_query(jmesquery) }}"
+        vars:
+          jmesquery: 'user.user'
+
+      - name: setUserPass
+        set_fact:
+          user_pass: "{{ jsondata | json_query(jmesquery) }}"
+        vars:
+          jmesquery: 'user.password'
+
+      - name: Debug Admin values
+        debug: msg="Admin => {{ admin_user }}, AdminPass => {{ admin_pass }}"
+
+      - name: Debug User values
+        debug: msg=" User => {{ user_name }}, UserPass => {{ user_pass }}"
+
+
