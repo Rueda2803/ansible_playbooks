@@ -1,6 +1,8 @@
 ---
 - name: ReadJsonfile
-  hosts: all
+  hosts:
+    -localhost
+    -Windows_AD
   vars:
     name: Bob
     dom_user: REDSOFT\Administrator
