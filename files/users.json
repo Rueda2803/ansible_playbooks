@@ -1,0 +1,13 @@
+{
+    "admin":{
+           "adminuser": "REDSOFT/Administrator",
+           "password": "Redsoft2024"
+    },
+
+    "user":{
+           "user": "juan",
+           "password": "juan2024"
+
+    }
+
+}
