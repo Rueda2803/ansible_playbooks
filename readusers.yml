@@ -33,7 +33,7 @@
     dom_pass: Redsoft2024
   tasks:
     - name: Ensure user user is create
-       microsoft.ad.user:
+      microsoft.ad.user:
         name: "{{ user_name }}"
         identity: "{{ user_name }}"
         firstname: "{{ user_name }}"
@@ -42,5 +42,7 @@
         domain_username: "{{ dom_user }}"
         domain_password: "{{ dom_pass }}"
         state: present
+
+
 
 
