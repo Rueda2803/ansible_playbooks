@@ -1,45 +1,39 @@
 ---
-  - name: ReadJsonfile
-    hosts: all
-    vars:
-      dom_user: REDSOFT\Administrator
-      dom_pass: Redsoft2024
-    tasks:
-      - name: Display the JSON file content
-        shell: cat files/users.json
-        register: result
+- name: ReadJsonfile
+  hosts: all
+  vars:
+    dom_user: REDSOFT\Administrator
+    dom_pass: Redsoft2024
+  tasks:
+    - name: Display the JSON file content
+      shell: cat files/users.json
+      register: result
 
-      - name: save the Json data to a Variable as a Fact
-        set_fact:
-          jsondata: "{{ result.stdout | from_json }}"
+    - name: save the Json data to a Variable as a Fact
+      set_fact:
+        jsondata: "{{ result.stdout | from_json }}"
+        
+    - name: setUserName
+      set_fact:
+        user_name: "{{ jsondata | json_query(jmesquery) }}"
+      vars:
+        jmesquery: 'user.user'
 
-      - name: setUserName
-        set_fact:
-          user_name: "{{ jsondata | json_query(jmesquery) }}"
-        vars:
-          jmesquery: 'user.user'
-
-      - name: setUserPass
-        set_fact:
-          user_pass: "{{ jsondata | json_query(jmesquery) }}"
-        vars:
-          jmesquery: 'user.password'
-
-     # - name: Debug Admin values
-     #   debug: msg="Admin => {{ admin_user }}, AdminPass => {{ admin_pass }}"
-
-#      - name: Debug User values
-#        debug: msg=" User => {{ user_name }}, UserPass => {{ user_pass }}"
-
-      - name: Ensure user user is create
-        microsoft.ad.user:
-          name: "{{ user_name }}"
-          identity: "{{ user_name }}"
-          firstname: "{{ user_name }}"
-          surname: "{{ user_name }}"
-          password: "{{ user_pass }}"
-          domain_username: "{{ dom_user }}"
-          domain_password: "{{ dom_pass }}"
-          state: present
+    - name: setUserPass
+      set_fact:
+        user_pass: "{{ jsondata | json_query(jmesquery) }}"
+      vars:
+        jmesquery: 'user.password'
+        
+    - name: Ensure user user is create
+      microsoft.ad.user:
+        name: "{{ user_name }}"
+        identity: "{{ user_name }}"
+        firstname: "{{ user_name }}"
+        surname: "{{ user_name }}"
+        password: "{{ user_pass }}"
+        domain_username: "{{ dom_user }}"
+        domain_password: "{{ dom_pass }}"
+        state: present
 
 
