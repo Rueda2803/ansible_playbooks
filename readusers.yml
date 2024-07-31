@@ -1,55 +1,46 @@
 ---
-  - name: ReadJsonfile
-    hosts: localhost
-    tasks:
-      - name: Display the JSON file content
-        shell: cat files/users.json
-        register: result
+- name: ReadJsonfile
+  hosts: localhost
+  tasks:
+    - name: Display the JSON file content
+      shell: cat files/users.json
+      register: result
 
-      - name: save the Json data to a Variable as a Fact
-        set_fact:
-          jsondata: "{{ result.stdout | from_json }}"
+    - name: save the Json data to a Variable as a Fact
+      set_fact:
+        jsondata: "{{ result.stdout | from_json }}"
 
-      - name: setAdminaccount
-        set_fact:
-          admin_user: "{{ jsondata | json_query(jmesquery) }}"
-        vars:
-          jmesquery: 'admin.adminname'
+    - name: setUserName
+      set_fact:
+        user_name: "{{ jsondata | json_query(jmesquery) }}"
+      vars:
+        jmesquery: 'user.user'
 
-      - name: setAdminPass
-        set_fact:
-          admin_pass: "{{ jsondata | json_query(jmesquery) }}"
-        vars:
-          jmesquery: 'admin.password'
+    - name: setUserPass
+      set_fact:
+        user_pass: "{{ jsondata | json_query(jmesquery) }}"
+      vars:
+        jmesquery: 'user.password'
 
-      - name: setUserName
-        set_fact:
-          user_name: "{{ jsondata | json_query(jmesquery) }}"
-        vars:
-          jmesquery: 'user.user'
+    - name: Debug User values
+      debug: msg=" User => {{ user_name }}, UserPass => {{ user_pass }}"
 
-      - name: setUserPass
-        set_fact:
-          user_pass: "{{ jsondata | json_query(jmesquery) }}"
-        vars:
-          jmesquery: 'user.password'
-
-      - name: Debug Admin values
-        debug: msg="Admin => {{ admin_user }}, AdminPass => {{ admin_pass }}"
-
-      - name: Debug User values
-        debug: msg=" User => {{ user_name }}, UserPass => {{ user_pass }}"
-
-
-#    - name: Ensure user user is create
- #     microsoft.ad.user:
- #       name: "{{ user_name }}"
- #       identity: "{{ user_name }}"
- #       firstname: "{{ user_name }}"
- #       surname: "{{ user_name }}"
- #       password: "{{ user_pass }}"
- #       domain_username: "{{ dom_user }}"
- #       domain_password: "{{ dom_pass }}"
- #       state: present
+- name: Update user pass in an AD
+  hosts: all
+  vars:
+    name: Bob
+    dom_user: REDSOFT\Administrator
+    dom_pass: Redsoft2024
+  tasks:
+    - name: Ensure user user is create
+       microsoft.ad.user:
+        name: "{{ user_name }}"
+        identity: "{{ user_name }}"
+        firstname: "{{ user_name }}"
+        surname: "{{ user_name }}"
+        password: "{{ user_pass }}"
+        domain_username: "{{ dom_user }}"
+        domain_password: "{{ dom_pass }}"
+        state: present
 
 
