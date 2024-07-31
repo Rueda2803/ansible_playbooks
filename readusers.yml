@@ -25,15 +25,15 @@
       vars:
         jmesquery: 'user.password'
         
-    - name: Ensure user user is create
-      microsoft.ad.user:
-        name: "{{ user_name }}"
-        identity: "{{ user_name }}"
-        firstname: "{{ user_name }}"
-        surname: "{{ user_name }}"
-        password: "{{ user_pass }}"
-        domain_username: "{{ dom_user }}"
-        domain_password: "{{ dom_pass }}"
-        state: present
+#    - name: Ensure user user is create
+ #     microsoft.ad.user:
+ #       name: "{{ user_name }}"
+ #       identity: "{{ user_name }}"
+ #       firstname: "{{ user_name }}"
+ #       surname: "{{ user_name }}"
+ #       password: "{{ user_pass }}"
+ #       domain_username: "{{ dom_user }}"
+ #       domain_password: "{{ dom_pass }}"
+ #       state: present
 
 
