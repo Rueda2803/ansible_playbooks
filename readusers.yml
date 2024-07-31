@@ -28,13 +28,15 @@
 
 - name: User Create
   hosts: Windows_AD
+  vars:
+    user: "{{ user_name }}"
   tasks:
     - name: Ensure user user is create
       microsoft.ad.user:
-        name: "{{ user_name }}"
-        identity: "{{ user_name }}"
-        firstname: "{{ user_name }}"
-        surname: "{{ user_name }}"
+        name: "{{ user }}"
+        identity: "{{ user }}"
+        firstname: "{{ user }}"
+        surname: "{{ user }}"
         password: "{{ user_pass }}"
         domain_username: REDSOFT\Administrator
         domain_password: Redsoft2024
