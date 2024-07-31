@@ -3,7 +3,7 @@
     hosts: localhost
     tasks:
       - name: Display the JSON file content
-        shell: cat /ansible_playbooks/jsonfiles/users.json
+        shell: cat /ansible_playbooks/json files/users.json
         register: result
 
       - name: save the Json data to a Variable as a Fact
