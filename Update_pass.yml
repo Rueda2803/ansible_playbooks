@@ -16,7 +16,8 @@
     - name: Update pass
       microsoft.ad.user:
         name: "{{ name }}"
-        update_password: always
+        #update_password: always
+        update_password: when_changed
         password: Redsoft20
         #domain_username: "{{ dom_user }}"
         #domain_password: "{{ dom_pass }}"
