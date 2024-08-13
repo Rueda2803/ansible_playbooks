@@ -4,14 +4,14 @@
   vars:
     user: Bob
   tasks:
-    - name: Ensure "{{ name }}" user is create
+    - name: Ensure "{{ user }}" user is create
       microsoft.ad.user:
         name: "{{ user }}"
         state: present
 
     - name: Update pass
       microsoft.ad.user:
-        name: "{{ name }}"
+        name: "{{ user }}"
         update_password: always
         password: Redsoft2024
         
