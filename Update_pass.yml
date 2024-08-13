@@ -13,5 +13,5 @@
       microsoft.ad.user:
         name: "{{ user }}"
         update_password: always
-        password: Redsoft2024
+        password: Guatemala2024
         
