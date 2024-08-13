@@ -2,22 +2,16 @@
 - name: Update user pass in an AD
   hosts: all
   vars:
-    name: Bob
-    dom_user: REDSOFT\Administrator
-    dom_pass: Redsoft2024
+    user: Bob
   tasks:
     - name: Ensure "{{ name }}" user is create
       microsoft.ad.user:
-        name: "{{ name }}"
-        #domain_username: "{{ dom_user }}"
-        #domain_password: "{{ dom_pass }}"
+        name: "{{ user }}"
         state: present
 
     - name: Update pass
       microsoft.ad.user:
         name: "{{ name }}"
-        #update_password: always
-        update_password: when_changed
-        password: Redsoft20
-        #domain_username: "{{ dom_user }}"
-        #domain_password: "{{ dom_pass }}"
+        update_password: always
+        password: Redsoft2024
+        
