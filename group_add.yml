@@ -4,7 +4,7 @@
   tasks:
     - name: Create a group
       microsoft.ad.group:
-        name: AD_Pruebas
+        name: "{{ group_name }}"
         scope: global
         state: present
   
