@@ -1,8 +1,6 @@
 ---
 - name: Update user pass in an AD
   hosts: all
-  vars:
-    user: Bob
   tasks:
     - name: Ensure "{{ user }}" user is create
       microsoft.ad.user:
