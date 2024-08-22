@@ -10,5 +10,5 @@
     - name: Disable an user in the AD
       microsoft.ad.user:
         name: Bob
-        enabled: yes
+        enabled: no
 
