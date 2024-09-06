@@ -1,0 +1,9 @@
+---
+- name: Package Management Ansible Playbook
+  hosts: dev
+  tasks:
+    - name: Dowload file
+      ansible.builtin.fetch:
+        src: /home/alan/file1.tgz
+        dest: /home/pcansible/
+        flat: yes
