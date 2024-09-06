@@ -1,9 +1,9 @@
 ---
 - name: Package Management Ansible Playbook
-  hosts: checkpoint
+  hosts: serverb
   tasks:
     - name: Dowload file
       ansible.builtin.fetch:
-        src: /var/log/CPbackup/backups/*.tgz
-        dest: /ciscobackup/Checkpoint
+        src: /home/alan/*.tgz
+        dest: /raiz/
         flat: yes
