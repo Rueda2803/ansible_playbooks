@@ -5,5 +5,5 @@
     - name: Dowload file
       ansible.builtin.fetch:
         src: /home/alan/file1.tgz
-        dest: /home/raiz/
+        dest: /raiz/
         flat: yes
