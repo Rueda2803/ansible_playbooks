@@ -1,6 +1,6 @@
 ---
 - name: Package Management Ansible Playbook
-  hosts: dev
+  hosts: serverb
   tasks:
     - name: Dowload file
       ansible.builtin.fetch:
