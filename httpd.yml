@@ -1,6 +1,6 @@
 ---
 - name: Install and start Apache HTTPD
-  hosts: {{ host }}
+  hosts: "{{ host }}"
   tasks:
     - name: Install the latest version of apache
       ansible.builtin.dnf:
