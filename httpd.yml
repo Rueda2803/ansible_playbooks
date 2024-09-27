@@ -2,11 +2,6 @@
 - name: Install and start Apache HTTPD
   hosts: "{{ host }}"
   tasks:
-    - name: Install the latest version of apache
-      ansible.builtin.dnf:
-        name: httpd
-        state: latest
-        
     - name: Ensure httpd is started
       ansible.builtin.service:
         name: httpd
