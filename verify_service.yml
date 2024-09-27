@@ -1,0 +1,9 @@
+---
+- name: Install and start Apache HTTPD
+  hosts: "{{ host }}"
+  tasks:
+    - name: Ensure httpd is started
+      ansible.builtin.service:
+        name: httpd
+        state: started
+        enabled: true
