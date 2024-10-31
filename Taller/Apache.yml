@@ -1,0 +1,6 @@
+---
+- name: Apache Roles Playbook
+  hosts: all
+  become: true
+  roles:
+    - role: 'Taller/roles/apache'
