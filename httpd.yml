@@ -1,6 +1,7 @@
 ---
 - name: Install and start Apache HTTPD
   hosts: webansible
+  become: true
   tasks:
     - name: Ensure httpd is started
       ansible.builtin.dnf:
