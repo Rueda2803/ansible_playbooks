@@ -1,6 +1,6 @@
 ---
 - name: Install and start Apache HTTPD
-  hosts: webansible
+  hosts: taller
   become: true
   tasks:
     - name: Ensure httpd is started
