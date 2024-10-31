@@ -1,9 +1,9 @@
 ---
 - name: Install and start Apache HTTPD
-  hosts: webansible
+  hosts: taller
   tasks:
     - name: Ensure httpd is started
       ansible.builtin.service:
         name: httpd
         state: started
-        #enabled: true
+        enabled: true
