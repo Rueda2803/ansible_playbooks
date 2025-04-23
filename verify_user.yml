@@ -16,4 +16,4 @@
     - name: Mostrar información del estado del usuario
       debug:
         msg: |
-          Estado del usuario '{{ ad_username }}': {{ user_info }}
+          Estado del usuario '{{ ad_username }}': {{ user_info.user }}
