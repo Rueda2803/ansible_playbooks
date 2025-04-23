@@ -1,0 +1,21 @@
+---
+- name: Verificar estado de un usuario en Active Directory
+  hosts: all
+  gather_facts: no
+
+  vars:
+    ad_username: "Bob"  # Reemplaza con el nombre de usuario a verificar
+
+  tasks:
+    - name: Obtener información del usuario en AD
+      microsoft.ad.user:
+        name: "{{ ad_username }}"
+        state: query
+      register: user_info
+
+    - name: Mostrar información del estado del usuario
+      debug:
+        msg: |
+          Estado del usuario '{{ ad_username }}':
+          - Cuenta deshabilitada: {{ user_info.user.Enabled | default('No encontrado') | ternary('No', 'Sí') }}
+          - Cuenta bloqueada: {{ user_info.user.LockedOut | default('No encontrado') | ternary('Sí', 'No') }}
