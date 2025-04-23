@@ -10,7 +10,7 @@
     - name: Obtener información del usuario en AD
       microsoft.ad.user:
         name: "{{ ad_username }}"
-        state: query
+        state: present
       register: user_info
 
     - name: Mostrar información del estado del usuario
