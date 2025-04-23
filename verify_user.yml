@@ -7,7 +7,7 @@
     - name: Obtener información del usuario en AD
       microsoft.ad.user:
         name: Bob
-        state: present
+        #state: present
       register: user_info
 
     - name: Mostrar información del estado del usuario
