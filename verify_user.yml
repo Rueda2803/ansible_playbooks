@@ -13,4 +13,4 @@
     - name: Mostrar información del estado del usuario
       debug:
         msg: |
-          Estado del usuario '{{ ad_username }}': {{ user_info.user.Enabled }}
+          Estado del usuario: '{{ user_info.user.Enabled }}'
