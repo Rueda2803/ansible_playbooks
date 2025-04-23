@@ -3,17 +3,14 @@
   hosts: all
   gather_facts: no
 
-  vars:
-    ad_username: "Bob"  # Reemplaza con el nombre de usuario a verificar
-
   tasks:
     - name: Obtener información del usuario en AD
       microsoft.ad.user:
-        name: "{{ ad_username }}"
+        name: Bob
         state: present
       register: user_info
 
     - name: Mostrar información del estado del usuario
       debug:
         msg: |
-          Estado del usuario '{{ ad_username }}': {{ user_info.user }}
+          Estado del usuario '{{ ad_username }}': {{ user_info.user.Enabled }}
