@@ -17,5 +17,4 @@
       debug:
         msg: |
           Estado del usuario '{{ ad_username }}':
-          - Cuenta deshabilitada: {{ user_info.user.Enabled | default('No encontrado') | ternary('No', 'Sí') }}
-          - Cuenta bloqueada: {{ user_info.user.LockedOut | default('No encontrado') | ternary('Sí', 'No') }}
+          {{ user_info.user }}
