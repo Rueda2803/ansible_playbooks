@@ -13,7 +13,7 @@
 
     - name: Update pass
       microsoft.ad.user:
-        name: "{{ user }}"
+        name: "{{ usuario }}"
         update_password: always
         password: Guatemala2024
 
