@@ -2,9 +2,22 @@
 - name: Verificar estado de un usuario en Active Directory
   hosts: all
   gather_facts: no
-
   tasks:
-    - name: Obtener información del usuario en AD
+    - name: Verificar si el usuario "{{ usuario }}" esta bloqueado.
       microsoft.ad.user:
-        name: Bob
+        name: "{{ usuario }}"
         account_locked: no
+      notify:
+        - Notificacion de desbloqueo
+      
+
+    - name: Update pass
+      microsoft.ad.user:
+        name: "{{ user }}"
+        update_password: always
+        password: Guatemala2024
+
+    handlers:
+     - name: Notificacion de desbloqueo
+       ansible.builtin.debug:
+        msg: "Usuario desbloqueado"
