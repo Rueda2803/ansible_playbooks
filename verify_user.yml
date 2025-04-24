@@ -17,7 +17,7 @@
         update_password: always
         password: Guatemala2024
 
-    handlers:
-     - name: Notificacion de desbloqueo
-       ansible.builtin.debug:
-        msg: "Usuario desbloqueado"
+  handlers:
+    - name: Notificacion de desbloqueo
+      ansible.builtin.debug:
+       msg: "Usuario desbloqueado"
