@@ -11,5 +11,5 @@
       microsoft.ad.user:
         name: "{{ user }}"
         update_password: always
-        password: Guatemala2024
+        password: "{{ pass }}"
         
