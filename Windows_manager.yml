@@ -2,10 +2,6 @@
 - name: Obtener el manager de un usuario en Active Directory
   hosts: all
   gather_facts: no
-
-  vars:
-    ad_user: "Bob"    # Cambia esto al nombre del usuario que quieres consultar
-
   tasks:
     - name: Obtener información del usuario en Active Directory
       win_shell: |
@@ -24,4 +20,6 @@
       debug:
         #msg: "{{ manager_info.stdout }}"
         msg: "{{ manager_info.stdout_lines }}"
-      when: manager_info.stdout_lines[0] == "Administrator"
+      when: manager_info.stdout_lines[0] == "{{ user_manager }}"
+
+    
