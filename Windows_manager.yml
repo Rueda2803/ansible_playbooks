@@ -1,0 +1,25 @@
+---
+- name: Obtener el manager de un usuario en Active Directory
+  hosts: all
+  gather_facts: no
+
+  vars:
+    ad_user: "Bob"    # Cambia esto al nombre del usuario que quieres consultar
+
+  tasks:
+    - name: Obtener información del usuario en Active Directory
+      win_shell: |
+        Import-Module ActiveDirectory
+        $user = Get-ADUser -Identity "{{ ad_user }}" -Properties Manager
+        if ($user.Manager) {
+          $manager_dn = $user.Manager
+          $manager = (Get-ADUser -Identity $manager_dn).Name
+          Write-Output $manager
+        } else {
+          Write-Output "Sin manager"
+        }
+      register: manager_info
+
+    - name: Mostrar el nombre del manager
+      debug:
+        msg: "El manager de {{ ad_user }} es: {{ manager_info.stdout }}"
