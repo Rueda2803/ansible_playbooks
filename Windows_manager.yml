@@ -22,4 +22,5 @@
 
     - name: Mostrar el nombre del manager
       debug:
-        msg: "El manager de {{ ad_user }} es: {{ manager_info.stdout }}"
+        #msg: "{{ manager_info.stdout }}"
+        msg: "{{ manager_info }}"
