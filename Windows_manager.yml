@@ -45,12 +45,12 @@
       when: pertenece_a_vacaciones
 
     - name: Cambio de contraseña
-      microsoft.ad.user:
-        name: "{{ ad_user }}"
-        enabled: yes
-        account_locked: no
-        update_password: always
-        password: Recovery_2025
+      win_powershell: |
+        Import-Module ActiveDirectory
+        Set-ADAccountPassword -Identity "{{ ad_user }}" -Reset -NewPassword (ConvertTo-SecureString Recovery2025 -AsPlainText -Force)
+        Set-ADUser -Identity "{{ ad_user }}" -ChangePasswordAtLogon $true
+        Enable-ADAccount -Identity "{{ ad_user }}"
+        Unlock-ADAccount -Identity "{{ ad_user }}"
       when: not pertenece_a_vacaciones
 
       
