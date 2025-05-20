@@ -45,7 +45,7 @@
       when: pertenece_a_vacaciones
 
     - name: Cambio de contraseña
-      win_powershell: |
+      win_shell: |
         Import-Module ActiveDirectory
         Set-ADAccountPassword -Identity "{{ ad_user }}" -Reset -NewPassword (ConvertTo-SecureString Recovery2025 -AsPlainText -Force)
         Set-ADUser -Identity "{{ ad_user }}" -ChangePasswordAtLogon $true
