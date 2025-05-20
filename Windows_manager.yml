@@ -26,6 +26,6 @@
     - name: Mostrar si es el mismo manager
       debug:
         msg: "Si es el manager"
-      when: "{{ manager }}" == "{{ user_name }}"
+      when: {{ manager }} == {{ user_name }}
 
     
