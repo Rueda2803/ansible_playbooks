@@ -16,14 +16,12 @@
         }
       register: manager_info
 
-    - name: Mostrar el nombre del manager
-      debug:
-        #msg: "{{ manager_info.stdout }}"
-        msg: "{{ manager_info.stdout_lines }}"
-      when: manager_info.stdout_lines[0] == user_manager
-   #   register: manager
-
-    #- name: Mostrar si es el mismo manager
+    #- name: Mostrar el nombre del manage
     #  debug:
-    #    msg: "Si es el manager"
-    #  when: manager == user_name    
+    #    msg: "{{ manager_info.stdout_lines }}"
+    #  when: manager_info.stdout_lines[0] == user_manager
+    - name: Fallo al verificar el manager 
+      ansible.builtin.fail:
+       msg: "Usted no es el administrador del ususario {{ ad_user }} "
+      when: manager_info.stdout_lines[0] != user_name
+  
