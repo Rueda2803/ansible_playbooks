@@ -29,21 +29,29 @@
         Get-ADPrincipalGroupMembership "{{ ad_user }}" | Select-Object -ExpandProperty Name
       register: user_groups
 
-    - name: Mostrar todos los grupos del usuario
-      debug:
-        var: user_groups.stdout_lines
-
     - name: Verificar si el usuario pertenece al grupo "Vacaciones"
       set_fact:
         pertenece_a_vacaciones: "{{ grupo_objetivo in user_groups.stdout_lines }}"
 
-    - name: Mensaje si pertenece al grupo Vacaciones
-      debug:
-        msg: "El usuario {{ ad_user }} pertenece al grupo '{{ grupo_objetivo }}'."
+    - name: Remover de grupo vacaciones
+      microsoft.ad.user:
+        name: "{{ ad_user }}"
+        groups:
+          remove:
+            - Vacaciones
+        enabled: true
+        update_password: always
+        password: Recovery2025
       when: pertenece_a_vacaciones
 
-    - name: Mensaje si NO pertenece al grupo Vacaciones
-      debug:
-        msg: "El usuario {{ ad_user }} NO pertenece al grupo '{{ grupo_objetivo }}'."
+    - name: Cambio de contraseña
+      microsoft.ad.user:
+        name: "{{ ad_user }}"
+        enabled: yes
+        account_locked: no
+        update_password: always
+        password: Recovery_2025
       when: not pertenece_a_vacaciones
+
+      
   
