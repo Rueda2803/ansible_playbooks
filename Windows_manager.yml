@@ -3,7 +3,7 @@
   hosts: all
   gather_facts: no
   tasks:
-    - name: Obtener información del usuario en Active Directory
+    - name: Obtener manager de {{ ad_user}}
       win_shell: |
         Import-Module ActiveDirectory
         $user = Get-ADUser -Identity "{{ ad_user }}" -Properties Manager
@@ -16,12 +16,32 @@
         }
       register: manager_info
 
-    #- name: Mostrar el nombre del manage
-    #  debug:
-    #    msg: "{{ manager_info.stdout_lines }}"
-    #  when: manager_info.stdout_lines[0] == user_manager
     - name: Fallo al verificar el manager 
       ansible.builtin.fail:
        msg: "Usted no es el administrador del ususario {{ ad_user }} "
       when: manager_info.stdout_lines[0] != user_name
+
+    - name: Obtener todos los grupos del usuario (incluye grupo primario)
+      win_shell: |
+        Import-Module ActiveDirectory
+        Get-ADPrincipalGroupMembership "{{ ad_user }}" | Select-Object -ExpandProperty Name
+      register: user_groups
+
+    - name: Mostrar todos los grupos del usuario
+      debug:
+        var: user_groups.stdout_lines
+
+    - name: Verificar si el usuario pertenece al grupo "Vacaciones"
+      set_fact:
+        pertenece_a_vacaciones: "{{ grupo_objetivo in user_groups.stdout_lines }}"
+
+    - name: Mensaje si pertenece al grupo Vacaciones
+      debug:
+        msg: "El usuario {{ ad_user }} pertenece al grupo '{{ grupo_objetivo }}'."
+      when: pertenece_a_vacaciones
+
+    - name: Mensaje si NO pertenece al grupo Vacaciones
+      debug:
+        msg: "El usuario {{ ad_user }} NO pertenece al grupo '{{ grupo_objetivo }}'."
+      when: not pertenece_a_vacaciones
   
