@@ -2,6 +2,8 @@
 - name: Obtener el manager de un usuario en Active Directory
   hosts: all
   gather_facts: no
+  vars:
+    grupo_objetivo: "Vacaciones"
   tasks:
     - name: Obtener manager de {{ ad_user}}
       win_shell: |
