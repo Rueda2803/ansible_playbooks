@@ -60,7 +60,7 @@
 
 
   handlers:
-   - name: Anunciar Vacaciones
+   - name: Anunciar vacaciones
      ansible.builtin.debug:
        msg: "El usuario {{ ad_user }} pertenecia al grupo Vacaciones y se ha generado una contraseña temporal"
 
