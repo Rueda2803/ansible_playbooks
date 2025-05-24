@@ -43,6 +43,9 @@
         update_password: always
         password: Recovery2025
       when: pertenece_a_vacaciones
+      notify: 
+        - Anunciar vacaciones
+      
 
     - name: Cambio de contraseña
       win_shell: |
@@ -52,6 +55,18 @@
         Enable-ADAccount -Identity "{{ ad_user }}"
         Unlock-ADAccount -Identity "{{ ad_user }}"
       when: not pertenece_a_vacaciones
+      notify:
+        - Anunciar Cambio de contraseña
+
+
+  handlers:
+   - name: Anunciar Vacaciones
+     ansible.builtin.debug:
+       msg: "El usuario {{ ad_user }} pertenecia al grupo Vacaciones y se ha generado una contraseña temporal"
+
+   - name: Anunciar Cambio de contraseña
+     ansible.builtin.debug:
+       msg: "Se ha actualizado la contraseña" 
 
       
   
