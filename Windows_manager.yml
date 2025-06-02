@@ -4,6 +4,7 @@
   gather_facts: no
   vars:
     grupo_objetivo: "Vacaciones"
+    temp_password: "RecoBH2025!"
   tasks:
     - name: Obtener manager de {{ ad_user}}
       win_shell: |
@@ -36,7 +37,7 @@
     - name: Remover de grupo vacaciones
       win_shell: |
         Import-Module ActiveDirectory
-        Set-ADAccountPassword -Identity "{{ ad_user }}" -Reset -NewPassword (ConvertTo-SecureString Recovery2025 -AsPlainText -Force)
+        Set-ADAccountPassword -Identity "{{ ad_user }}" -Reset -NewPassword (ConvertTo-SecureString "{{ temp_password }}" -AsPlainText -Force)
         Remove-ADGroupMember -Identity "{{ grupo_objetivo }}" -Members "{{ ad_user }}" -Confirm:$false
         Set-ADUser -Identity "{{ ad_user }}" -ChangePasswordAtLogon $true
         Enable-ADAccount -Identity "{{ ad_user }}"
@@ -50,7 +51,7 @@
     - name: Cambio de contraseña
       win_shell: |
         Import-Module ActiveDirectory
-        Set-ADAccountPassword -Identity "{{ ad_user }}" -Reset -NewPassword (ConvertTo-SecureString Recovery2025 -AsPlainText -Force)
+        Set-ADAccountPassword -Identity "{{ ad_user }}" -Reset -NewPassword (ConvertTo-SecureString "{{ temp_password }}" -AsPlainText -Force)
         Set-ADUser -Identity "{{ ad_user }}" -ChangePasswordAtLogon $true
         Enable-ADAccount -Identity "{{ ad_user }}"
         Unlock-ADAccount -Identity "{{ ad_user }}"
