@@ -5,7 +5,7 @@
   tasks:
     - name: Limpiar data
       set_fact:
-        clean_data: "{{ var1 | regex_replace('\\\\', '') | regex_replace('}} *}}$', '}') }}"
+        clean_data: "{{ var1 | regex_replace('\\\\\\', '')"
 
     - name: Imprimir variable 1
       ansible.builtin.debug:
