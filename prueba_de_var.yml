@@ -9,7 +9,7 @@
 
     - name: Imprimir variable 1
       ansible.builtin.debug:
-        msg: "Variable 1: {{ clean_data | type_debug }}"
+        msg: "Variable 1: {{ var1 | type_debug }}"
 
     - name: Convertir cadena JSON a diccionario
       set_fact:
