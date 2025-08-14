@@ -3,17 +3,21 @@
   hosts: localhost
   gather_facts: false
   tasks:
-    - name: Limpiar data
+    - name: Paso 1 - Quitar comillas escapadas y saltos extra
       set_fact:
-        clean_data: "{{ var1 | regex_replace('}} *}}$', '}') }}"
+        dato_limpio: "{{ var1 | regex_replace('\\\\([\"/])', '\\1') | regex_replace('\\\\n|\\\\t', '') }}"
+
+    - name: Paso 2 - Quitar llaves sobrantes al final
+      set_fact:
+        dato_limpio: "{{ dato_limpio | regex_replace('}\\s*}\\s*}$', '}') }}"
 
     - name: Imprimir variable 1
       ansible.builtin.debug:
-        msg: "Variable 1: {{ clean_data }}"
+        msg: "Variable 1: {{ dato_limpio }}"
 
     - name: Convertir cadena JSON a diccionario
       set_fact:
-        parsed_data: "{{ clean_data | from_json }}"
+        parsed_data: "{{ dato_limpio | from_json }}"
 
 #    - name: Convertir cadena JSON a diccionario
 #      set_fact:
