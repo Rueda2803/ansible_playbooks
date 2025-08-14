@@ -7,6 +7,10 @@
       set_fact:
         clean_data: "{{ var1 | regex_replace('\\\\', '') | regex_replace('}}}.*$', '}}') }} }}"
 
+    - name: Imprimir variable 1
+      ansible.builtin.debug:
+        msg: "Variable 1: {{ clean_data }}"
+
     - name: Convertir cadena JSON a diccionario
       set_fact:
         parsed_data: "{{ clean_data | from_json }}"
