@@ -3,19 +3,12 @@
   hosts: localhost
   gather_facts: false
   tasks:
-    - name: Paso 1 - Quitar comillas escapadas y saltos extra
+    - name: Filtrar data
       set_fact:
         dato_limpio: "{{ var1 | regex_replace('\\\\([\"/])', '\\1') | regex_replace('\\\\n|\\\\t', '') | regex_replace('}\\s*}\\s*}$', '}') }}"
-
-    - name: Imprimir variable 1
-      ansible.builtin.debug:
-        msg: "Variable 1: {{ dato_limpio }}"
 
     - name: Convertir cadena JSON a diccionario
       set_fact:
         manager: "{{ dato_limpio.name }}"
         email: "{{ dato_limpio.email_id }}"
 
-    - name: Imprimir variable 2
-      ansible.builtin.debug:
-        msg: "Manager: {{ manager }}, Email: {{ email }}"
