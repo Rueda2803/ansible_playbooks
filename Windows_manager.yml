@@ -22,7 +22,7 @@
 
         - name: Fallo al verificar el manager 
           ansible.builtin.fail:
-          msg: "Usted no es el administrador del ususario {{ ad_user }} "
+            msg: "Usted no es el administrador del ususario {{ ad_user }} "
           when: manager_info.stdout_lines[0] != user_name
 
         - name: Obtener todos los grupos del usuario (incluye grupo primario)
