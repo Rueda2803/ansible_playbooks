@@ -15,15 +15,15 @@
       ansible.builtin.debug:
         msg: "Variable 1: {{ dato_limpio }}"
 
-    - name: Convertir cadena JSON a diccionario
-      set_fact:
-        parsed_data: "{{ dato_limpio | from_json }}"
-
 #    - name: Convertir cadena JSON a diccionario
 #      set_fact:
-#        manager: "{{ parsed_data.name }}"
-#        email: "{{ parsed_data.email_id }}"
+#        parsed_data: "{{ dato_limpio | from_json }}"
 
-#    - name: Imprimir variable 2
-#      ansible.builtin.debug:
-#        msg: "Manager: {{ manager }}, Email: {{ email }}"
+    - name: Convertir cadena JSON a diccionario
+      set_fact:
+        manager: "{{ dato_limpio.name }}"
+        email: "{{ dato_limpio.email_id }}"
+
+    - name: Imprimir variable 2
+      ansible.builtin.debug:
+        msg: "Manager: {{ manager }}, Email: {{ email }}"
