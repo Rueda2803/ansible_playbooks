@@ -5,19 +5,15 @@
   tasks:
     - name: Paso 1 - Quitar comillas escapadas y saltos extra
       set_fact:
-        dato_limpio: "{{ var1 | regex_replace('\\\\([\"/])', '\\1') | regex_replace('\\\\n|\\\\t', '') }}"
+        dato_limpio: "{{ var1 | regex_replace('\\\\([\"/])', '\\1') | regex_replace('\\\\n|\\\\t', '') | regex_replace('}\\s*}\\s*}$', '}') }}"
 
-    - name: Paso 2 - Quitar llaves sobrantes al final
-      set_fact:
-        dato_limpio: "{{ dato_limpio | regex_replace('}\\s*}\\s*}$', '}') }}"
+#    - name: Paso 2 - Quitar llaves sobrantes al final
+#      set_fact:
+#        dato_limpio: "{{ dato_limpio | regex_replace('}\\s*}\\s*}$', '}') }}"
 
     - name: Imprimir variable 1
       ansible.builtin.debug:
         msg: "Variable 1: {{ dato_limpio }}"
-
-#    - name: Convertir cadena JSON a diccionario
-#      set_fact:
-#        parsed_data: "{{ dato_limpio | from_json }}"
 
     - name: Convertir cadena JSON a diccionario
       set_fact:
