@@ -4,70 +4,85 @@
   gather_facts: no
   vars:
     grupo_objetivo: "Vacaciones"
-    temp_password: "RecoBH2025!"
   tasks:
-    - name: Obtener manager de {{ ad_user}}
-      win_shell: |
-        Import-Module ActiveDirectory
-        $user = Get-ADUser -Identity "{{ ad_user }}" -Properties Manager
-        if ($user.Manager) {
-          $manager_dn = $user.Manager
-          $manager = (Get-ADUser -Identity $manager_dn).Name
-          Write-Output $manager
-        } else {
-          Write-Output "Sin manager"
-        }
-      register: manager_info
 
-    - name: Fallo al verificar el manager 
-      ansible.builtin.fail:
-       msg: "Usted no es el administrador del ususario {{ ad_user }} "
-      when: manager_info.stdout_lines[0] != user_name
+    block:
+      - name: Verificación de manager del usuario {{ ad_user}}
+        win_shell: |
+          Import-Module ActiveDirectory
+          $user = Get-ADUser -Identity "{{ ad_user }}" -Properties Manager
+          if ($user.Manager) {
+            $manager_dn = $user.Manager
+            $manager = (Get-ADUser -Identity $manager_dn).Name
+            Write-Output $manager
+          } else {
+            Write-Output "Sin manager"
+          }
+        register: manager_info
 
-    - name: Obtener todos los grupos del usuario (incluye grupo primario)
-      win_shell: |
-        Import-Module ActiveDirectory
-        Get-ADPrincipalGroupMembership "{{ ad_user }}" | Select-Object -ExpandProperty Name
-      register: user_groups
+      - name: Fallo al verificar el manager 
+        ansible.builtin.fail:
+        msg: "Usted no es el administrador del ususario {{ ad_user }} "
+        when: manager_info.stdout_lines[0] != user_name
 
-    - name: Verificar si el usuario pertenece al grupo "Vacaciones"
-      set_fact:
-        pertenece_a_vacaciones: "{{ grupo_objetivo in user_groups.stdout_lines }}"
+      - name: Obtener todos los grupos del usuario (incluye grupo primario)
+        win_shell: |
+          Import-Module ActiveDirectory
+          Get-ADPrincipalGroupMembership "{{ ad_user }}" | Select-Object -ExpandProperty Name
+        register: user_groups
 
-    - name: Remover de grupo vacaciones
-      win_shell: |
-        Import-Module ActiveDirectory
-        Set-ADAccountPassword -Identity "{{ ad_user }}" -Reset -NewPassword (ConvertTo-SecureString "{{ temp_password }}" -AsPlainText -Force)
-        Remove-ADGroupMember -Identity "{{ grupo_objetivo }}" -Members "{{ ad_user }}" -Confirm:$false
-        Set-ADUser -Identity "{{ ad_user }}" -ChangePasswordAtLogon $true
-        Enable-ADAccount -Identity "{{ ad_user }}"
-        Unlock-ADAccount -Identity "{{ ad_user }}"
-      
-      when: pertenece_a_vacaciones
-      notify: 
-        - Anunciar vacaciones
-      
+      - name: Verificar si el usuario pertenece al grupo "Vacaciones"
+        set_fact:
+          pertenece_a_vacaciones: "{{ grupo_objetivo in user_groups.stdout_lines }}"
 
-    - name: Cambio de contraseña
-      win_shell: |
-        Import-Module ActiveDirectory
-        Set-ADAccountPassword -Identity "{{ ad_user }}" -Reset -NewPassword (ConvertTo-SecureString "{{ temp_password }}" -AsPlainText -Force)
-        Set-ADUser -Identity "{{ ad_user }}" -ChangePasswordAtLogon $true
-        Enable-ADAccount -Identity "{{ ad_user }}"
-        Unlock-ADAccount -Identity "{{ ad_user }}"
-      when: not pertenece_a_vacaciones
-      notify:
-        - Anunciar Cambio de contraseña
+      - name: Generar contraseña temporal
+        set_fact:
+          temp_password: "{{ lookup('password', '/dev/null length=12 chars=ascii_letters,digits') }}"
+
+      - name: Remover de grupo vacaciones
+        win_shell: |
+          Import-Module ActiveDirectory
+          Set-ADAccountPassword -Identity "{{ ad_user }}" -Reset -NewPassword (ConvertTo-SecureString "{{ temp_password }}" -AsPlainText -Force)
+          Remove-ADGroupMember -Identity "{{ grupo_objetivo }}" -Members "{{ ad_user }}" -Confirm:$false
+          Set-ADUser -Identity "{{ ad_user }}" -ChangePasswordAtLogon $true
+          Enable-ADAccount -Identity "{{ ad_user }}"
+          Unlock-ADAccount -Identity "{{ ad_user }}"
+        
+        when: pertenece_a_vacaciones
+        notify: 
+          - Anunciar vacaciones
+        
+      - name: Cambio de contraseña
+        win_shell: |
+          Import-Module ActiveDirectory
+          Set-ADAccountPassword -Identity "{{ ad_user }}" -Reset -NewPassword (ConvertTo-SecureString "{{ temp_password }}" -AsPlainText -Force)
+          Set-ADUser -Identity "{{ ad_user }}" -ChangePasswordAtLogon $true
+          Enable-ADAccount -Identity "{{ ad_user }}"
+          Unlock-ADAccount -Identity "{{ ad_user }}"
+        when: not pertenece_a_vacaciones
+        notify:
+          - Anunciar Cambio de contraseña
+    rescue:
+      - name: Manejar errores
+        ansible.builtin.fail:
+          msg: "Ocurrió un error al procesar el usuario {{ ad_user }}. Verifique que el usuario y el manager sean correctos."
+
 
 
   handlers:
-   - name: Anunciar vacaciones
-     ansible.builtin.debug:
-       msg: "El usuario {{ ad_user }} pertenecia al grupo Vacaciones y se ha generado una contraseña temporal"
+    - name: Anunciar vacaciones
+      community.general.email:
+        host: 192.168.3.2
+        port: 25
+        to: alan.rueda@datumredsoft.com
+        from: alankewd@gmail.com
+        subject: "Usuario {{ ad_user }} ha salido de vacaciones"
+        body: "El usuario {{ ad_user }} ha sido removido del grupo {{ grupo_objetivo }} y su contraseña temporal es: {{ temp_password }}. Debe cambiarla en su próximo inicio de sesión."
+      delegate_to: localhost 
 
-   - name: Anunciar Cambio de contraseña
-     ansible.builtin.debug:
-       msg: "Se ha actualizado la contraseña" 
+    - name: Anunciar Cambio de contraseña
+      ansible.builtin.debug:
+        msg: "Se ha actualizado la contraseña"
 
       
   
