@@ -3,10 +3,15 @@
   hosts: localhost
   gather_facts: false
   tasks:
-    - name: Imprimir la primera variable
-      debug:
-        msg: "El valor de var1 es: {{ var1 }}"
+    - name: Convertir cadena JSON a diccionario
+      set_fact:
+        parsed_data: "{{ var1 | from_json }}"
 
-    - name: Imprimir la segunda variable
-      debug:
-        msg: "El valor de var2 es: {{ var2 }}"
+    - name: Convertir cadena JSON a diccionario
+      set_fact:
+        manager: "{{ parsed_data.name }}"
+        email: "{{ parsed_data.email_id }}"
+
+    - name: Imprimir variable 2
+      ansible.builtin.debug:
+        msg: "Manager: {{ manager }}, Email: {{ email }}"

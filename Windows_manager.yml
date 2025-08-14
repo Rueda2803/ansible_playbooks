@@ -5,7 +5,7 @@
   vars:
     grupo_objetivo: "Vacaciones"
   tasks:
-    - name: Monidifacion de contraseña de usuario
+    - name: Modificacion de contraseña de usuario
       block:
         - name: Verificación de manager del usuario {{ ad_user}}
           win_shell: |
@@ -79,7 +79,7 @@
         port: 25
         to: alan.rueda@datumredsoft.com
         from: Alan Rueda <alankewd@gmail.com>
-        subject: "Habilitacioón y cambio de contraseña de usuario: {{ ad_user }}"
+        subject: "Habilitación y cambio de contraseña de usuario: {{ ad_user }}"
         body: "Se ha habilitado y cambiado la contraseña de {{ ad_user }}, la contraseña temporal es: {{ temp_password }}. Debe cambiarla en su próximo inicio de sesión."
       delegate_to: localhost 
 
