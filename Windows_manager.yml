@@ -37,7 +37,7 @@
 
         - name: Generar contraseña temporal
           set_fact:
-            temp_password: "{{ lookup('password', '/dev/null length=12 chars=ascii_letters,digits') }}"
+            temp_password: "{{ lookup('password', '/dev/null length=10 chars=ascii_letters,digits') }}"
 
         - name: Remover de grupo vacaciones
           win_shell: |
@@ -50,7 +50,7 @@
           
           when: pertenece_a_vacaciones
           notify: 
-            - Anunciar vacaciones
+            - Anunciar Cambio de contraseña
           
         - name: Cambio de contraseña
           win_shell: |
@@ -63,24 +63,25 @@
           notify:
             - Anunciar Cambio de contraseña
       rescue:
-        - name: Manejar errores
-          ansible.builtin.fail:
-            msg: "Ocurrió un error al procesar el usuario {{ ad_user }}. Verifique que el usuario y el manager sean correctos."
-
+        - name: Anunciar Cambio de contraseña
+          community.general.mail:
+            host: 192.168.3.2
+            port: 25
+            to: alan.rueda@datumredsoft.com
+            from: Alan Rueda <alankewd@gmail.com>
+            subject: "Fallo en la habilitación y cambio de contraseña de usuario: {{ ad_user }}"
+            body: "A ocurrido un error al intentar habilitar y cambiar la contraseña de {{ ad_user }}. Esto se debe a las siguientes razones: 1. El usuario no existe. 2. El usuario no tiene un manager asignado. 3. Ocurrio un fallo en el proceso, por favor contacte al administrador del sistema."
+          delegate_to: localhost
   handlers:
-    - name: Anunciar vacaciones
+    - name: Anunciar Cambio de contraseña
       community.general.mail:
         host: 192.168.3.2
         port: 25
         to: alan.rueda@datumredsoft.com
-        from: alankewd@gmail.com
-        subject: "Usuario {{ ad_user }} ha salido de vacaciones"
-        body: "El usuario {{ ad_user }} ha sido removido del grupo {{ grupo_objetivo }} y su contraseña temporal es: {{ temp_password }}. Debe cambiarla en su próximo inicio de sesión."
+        from: Alan Rueda <alankewd@gmail.com>
+        subject: "Habilitacioón y cambio de contraseña de usuario: {{ ad_user }}"
+        body: "Se ha habilitado y cambiado la contraseña de {{ ad_user }}, la contraseña temporal es: {{ temp_password }}. Debe cambiarla en su próximo inicio de sesión."
       delegate_to: localhost 
-
-    - name: Anunciar Cambio de contraseña
-      ansible.builtin.debug:
-        msg: "Se ha actualizado la contraseña"
 
       
   
