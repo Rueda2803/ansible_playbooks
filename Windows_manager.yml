@@ -71,7 +71,7 @@
 
   handlers:
     - name: Anunciar vacaciones
-      community.general.email:
+      community.general.mail:
         host: 192.168.3.2
         port: 25
         to: alan.rueda@datumredsoft.com
