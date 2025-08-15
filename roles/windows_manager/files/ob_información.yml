@@ -1,0 +1,9 @@
+---
+- name: Obtención de información
+  set_fact:
+    dato_limpio: "{{ user_name | regex_replace('\\\\([\"/])', '\\1') | regex_replace('\\\\n|\\\\t', '') | regex_replace('}\\s*}\\s*}$', '}') }}"
+
+- name: Filtración de datos
+  set_fact:
+    manager: "{{ dato_limpio.name }}"
+    email: "{{ dato_limpio.email_id }}"

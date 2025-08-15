@@ -7,11 +7,11 @@
   tasks:
     - name: Modificacion de contraseña de usuario
       block:
-        - name: Filtración de información
+        - name: Obtención de información
           set_fact:
             dato_limpio: "{{ user_name | regex_replace('\\\\([\"/])', '\\1') | regex_replace('\\\\n|\\\\t', '') | regex_replace('}\\s*}\\s*}$', '}') }}"
 
-        - name: Convertir cadena JSON a diccionario
+        - name: Filtración de datos
           set_fact:
             manager: "{{ dato_limpio.name }}"
             email: "{{ dato_limpio.email_id }}"
@@ -72,7 +72,7 @@
           notify:
             - Anunciar Cambio de contraseña
       rescue:
-        - name: Anunciar Cambio de contraseña
+        - name: Anunciar fallo en el cambio de contraseña
           community.general.mail:
             host: 192.168.3.2
             port: 25

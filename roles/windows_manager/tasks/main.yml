@@ -1,0 +1,6 @@
+---
+- name: Obtener información de ticket de SDP
+  include_tasks: roles/windows_manager/files/ob_información.yml
+
+- name: Manejo de Usuario en Active Directory
+  include_tasks: roles/windows_manager/files/manejo_ad.yml

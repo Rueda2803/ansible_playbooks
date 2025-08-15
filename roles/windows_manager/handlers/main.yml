@@ -1,0 +1,10 @@
+---
+- name: Anunciar Cambio de contraseña
+  community.general.mail:
+    host: 192.168.3.2
+    port: 25
+    to: "{{ email }}"
+    from: Alan Rueda <alankewd@gmail.com>
+    subject: "Habilitación y cambio de contraseña de usuario: {{ ad_user }}"
+    body: "Se ha habilitado y cambiado la contraseña de {{ ad_user }}, la contraseña temporal es: {{ temp_password }}. Debe cambiarla en su próximo inicio de sesión."
+  delegate_to: localhost 
