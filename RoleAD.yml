@@ -1,6 +1,6 @@
 ---
 - name: Modificacion de contraseña de usuario
-  host: all
+  hosts: all
   gather_facts: no
   roles:
   - windows_manager
