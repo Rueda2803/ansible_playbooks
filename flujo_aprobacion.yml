@@ -3,8 +3,7 @@
   hosts: all
   become: yes
   tasks:
-  - name: Actualizar sistema operativo
-    dnf:
-      name: "*"
-      state: latest
-    when: ans1 == "Si" and ans2 == "Actualizar SO"
+  - name: Reiniciar servicios
+    systemd:
+      name: httpd
+      state: restarted
