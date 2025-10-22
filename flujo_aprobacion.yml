@@ -1,0 +1,10 @@
+---
+- name: Flujo de Aprobación de Documentos
+  hosts: all
+  become: yes
+  tasks:
+  - name: Actualizar sistema operativo
+    dnf:
+      name: "*"
+      state: latest
+    when: ans1 == "Si" and ans2 == "Actualizar SO"
