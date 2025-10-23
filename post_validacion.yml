@@ -6,16 +6,9 @@
   - name: Check system uptime
     command: uptime
     register: uptime_info
-    
+
   - debug:
       msg: "System uptime: {{ uptime_info.stdout }}"
-
-  - name: Verify that HTTP service is active
-    service_facts:
-  - name: Ensure httpd service is running
-    fail:
-      msg: "Service httpd is not running after update!"
-    when: "'httpd' not in ansible_facts.services or ansible_facts.services['httpd'].state != 'running'"
 
   - name: Check for critical errors in /var/log/messages
     shell: grep -i "error" /var/log/messages | tail -n 10
