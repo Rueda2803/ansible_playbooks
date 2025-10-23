@@ -1,0 +1,21 @@
+---
+- name: Update system packages
+  hosts: all
+  become: true
+  serial: 2
+  tasks:
+  - name: Update all packages
+    yum:
+      name: "*"
+      state: latest
+
+  - name: Reboot if kernel updated
+    reboot:
+      msg: "Reboot triggered by update"
+      connect_timeout: 5
+      reboot_timeout: 600
+    when: ansible_facts.packages['kernel'] is defined
+
+  - name: Notify update done
+    debug:
+      msg: "Packages updated successfully"

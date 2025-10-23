@@ -1,10 +1,25 @@
 ---
-- name: Flujo de Aprobación de Documentos
+- name: Verificación de systema antes del update 
   hosts: all
   become: yes
   tasks:
-  - name: Actualización de sistema operativo
-    dnf:
-      name: "*"
-      state: latest
-    when: ansible_os_family == "RedHat"
+  - name: Comprobar espacio en disco
+    command: df -h / | tail -1 | awk '{print $5}'
+    register: disk_space
+
+  - name: Fallo si el disco está lleno
+    fail:
+      msg: "El espacio en disco es insuficiente para proceder con la actualización."
+    when: disk_space.stdout | regex_replace('%','') | int > 80
+
+  - name: Verificación de servicio activo
+    service_facts:
+
+  - name: Fallo si el servicio httpd no está activo
+    fail:
+      msg: "El servicio httpd no está activo. No se puede proceder con la actualización."
+    when: "'httpd' not in services or services['httpd'].state != 'running'"
+
+  - name: Sumario de verificación
+    debug:
+      msg: "Todas las verificaciones previas a la actualización han sido exitosas."

@@ -1,0 +1,28 @@
+---
+- name: Send update report
+  hosts: localhost
+  gather_facts: no
+  vars:
+    recipients: "ops-team@example.com"
+    workflow_status: "{{ tower_workflow_job.status | default('unknown') }}"
+
+  tasks:
+  - name: Compose report
+    set_fact:
+      report_message: |
+        Workflow: {{ tower_workflow_job.name }}
+        Started by: {{ tower_workflow_job.created_by.username }}
+        Status: {{ workflow_status }}
+        Finished at: {{ tower_workflow_job.finished }}
+        Inventory: {{ tower_workflow_job.inventory.name }}
+
+  - name: Send email notification
+    mail:
+      host: 192.168.3.2
+      port: 25
+      to: "{{ recipients }}"
+      subject: "Ansible Workflow Report - {{ workflow_status }}"
+      body: "{{ report_message }}"
+
+  - debug:
+      msg: "Report sent to {{ recipients }}"
