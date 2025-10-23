@@ -14,7 +14,6 @@
       msg: "Reboot triggered by update"
       connect_timeout: 5
       reboot_timeout: 800
-    when: ansible_facts.packages['kernel'] is defined
 
   - name: Notify update done
     debug:
