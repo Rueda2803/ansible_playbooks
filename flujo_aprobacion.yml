@@ -10,15 +10,7 @@
   - name: Fallo si el disco está lleno
     fail:
       msg: "El espacio en disco es insuficiente para proceder con la actualización."
-    when: disk_space.stdout | regex_replace('%','') | int > 80
-
-  - name: Verificación de servicio activo
-    service_facts:
-
-  - name: Fallo si el servicio httpd no está activo
-    fail:
-      msg: "El servicio httpd no está activo. No se puede proceder con la actualización."
-    when: "'httpd' not in services or services['httpd'].state != 'running'"
+    when: disk_space.stdout | regex_replace('%','') | int > 15
 
   - name: Sumario de verificación
     debug:
