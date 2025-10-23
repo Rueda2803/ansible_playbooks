@@ -4,7 +4,7 @@
   become: yes
   tasks:
   - name: Comprobar espacio en disco
-    command: df -h / | tail -1 | awk '{print $5}'
+    command: df -h / | tail -n 1 | awk '{print $5}'
     register: disk_space
 
   - name: Fallo si el disco está lleno
