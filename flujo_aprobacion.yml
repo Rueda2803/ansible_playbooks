@@ -7,10 +7,14 @@
     shell: df -h / | tail -n 1 | awk '{print $5}'
     register: disk_space
 
+  - name: Mostra r espacio en disco
+    debug:
+      msg: "El uso del disco es: {{ disk_space.stdout }}"
+
   - name: Fallo si el disco está lleno
     fail:
       msg: "El espacio en disco es insuficiente para proceder con la actualización."
-    when: disk_space.stdout | regex_replace('%','') | int > 15
+    when: disk_space.stdout | regex_replace('%','') | int > 80
 
   - name: Sumario de verificación
     debug:
