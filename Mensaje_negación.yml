@@ -1,0 +1,8 @@
+---
+- name: Negación de flujo
+  hosts: all
+  become: yes
+  tasks:
+  - name: Despliegue de mensaje de negación
+    debug:
+      msg: "El flujo de aprobación ha sido negado. No se realizarán más acciones."

@@ -3,7 +3,8 @@
   hosts: all
   become: yes
   tasks:
-  - name: Reiniciar servicios
-    systemd:
-      name: httpd
-      state: restarted
+  - name: Actualización de sistema operativo
+    dnf:
+      name: "*"
+      state: latest
+    when: ansible_os_family == "RedHat"
